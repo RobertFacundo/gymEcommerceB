@@ -22,6 +22,9 @@ const CategorySchema = new Schema(
         description: {
             type: TranslatedTextSchema,
             required: true
+        },
+        image: {
+            type: String,
         }
     },
     { timestamps: true }

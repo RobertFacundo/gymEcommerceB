@@ -18,7 +18,7 @@ app.use('/api/products', productsRoutes)
 
 app.use(
   "/images",
-  express.static(path.join(__dirname, "../public/images"))
+  express.static(path.join(process.cwd(), "public/images"))
 );
 
 export default app;
