@@ -24,7 +24,7 @@ export const categories = [
     image:'/images/categories/machines.webp'
   },
   {
-    slug: "accesories",
+    slug: "accessories",
     name: {
       en: "Accessories",
       es: "Accesorios"
