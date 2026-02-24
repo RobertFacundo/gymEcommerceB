@@ -14,10 +14,13 @@ export const createSessionController = async (req: AuthRequest & { guestId?: str
 
         const { successUrl, cancelUrl } = req.body;
 
-        const identifier = getCartIdentifier(req);
+        const identifier = await getCartIdentifier(req);
+
+        console.log(identifier, 'log del identifier create session controller')
 
         const session = await createCheckoutSession({
-            ...identifier,
+            userId: identifier.userId?.toString(),
+            guestId: identifier.guestId,
             successUrl,
             cancelUrl,
         });
