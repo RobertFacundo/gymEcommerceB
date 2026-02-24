@@ -7,6 +7,7 @@ interface AuthRequest extends Request {
 
 export const register = async (req: Request, res: Response) => {
     try {
+        console.log('BODY:', req.body);
         const { name, email, password } = req.body;
         const data = await authService.registerUser(name, email, password);
 
