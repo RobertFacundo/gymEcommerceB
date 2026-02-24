@@ -1,21 +1,30 @@
 import { Request, Response } from 'express';
 import { createCheckoutSession, getCheckoutSession } from '../services/checkout.service';
 import { AuthRequest } from '../../../shared/middlewares/auth.middleware';
+import { getCartIdentifier } from '../../cart/utils/cartIdentifier';
 
-interface SessionParams{
-    sessionId:string;
+interface SessionParams {
+    sessionId: string;
 }
 
-export const createSessionController = async (req: AuthRequest, res: Response) => {
+export const createSessionController = async (req: AuthRequest & { guestId?: string }, res: Response) => {
     try {
-        const { successUrl, cancelUrl } = req.body;
-        const userId = req.user?.id;
-        const guestId = req.body.guestId;
+        console.log('1111BODY:', req.body);
+        console.log('11111USER:', req.user);
 
-        const session = await createCheckoutSession({ userId, guestId, successUrl, cancelUrl });
+        const { successUrl, cancelUrl } = req.body;
+
+        const identifier = getCartIdentifier(req);
+
+        const session = await createCheckoutSession({
+            ...identifier,
+            successUrl,
+            cancelUrl,
+        });
 
         res.json({ url: session.url })
     } catch (error: any) {
+        console.error('CHECKOUT ERROR:', error.message);
         res.status(400).json({ error: error.message });
     }
 };

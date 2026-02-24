@@ -9,14 +9,22 @@ interface CreateCheckoutSessionParams {
     cancelUrl: string;
 }
 
-export const createCheckoutSession = async ({
-    userId,
-    guestId,
-    successUrl,
-    cancelUrl
-}: CreateCheckoutSessionParams) => {
+export const createCheckoutSession = async (params: CreateCheckoutSessionParams) => {
+
+    const { userId, guestId, successUrl, cancelUrl } = params;
+    console.log('CHECKOUT PARAMS:', params);
+
+    const orConditions: any[] = [];
+
+    if (userId) orConditions.push({ userId });
+    if (guestId) orConditions.push({ guestId });
+
+    if (!userId && !guestId) {
+        throw new Error('No user or guest provided');
+    }
+
     const cart = await CartModel.findOne({
-        $or: [{ userId }, { guestId }],
+        $or: orConditions,
         isActive: true,
     });
 
