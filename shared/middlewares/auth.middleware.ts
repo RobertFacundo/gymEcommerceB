@@ -31,3 +31,20 @@ export const authMiddleware = async (
         return res.status(401).json({ message: 'Invalid token' });
     }
 };
+
+export const authMiddlewareOptional = async (
+  req: AuthRequest,
+  _res: Response,
+  next: NextFunction
+) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader?.startsWith('Bearer ')) return next();
+
+  try {
+    const token = authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'supersecret') as any;
+    const user = await User.findById(decoded.id).select('-password');
+    if (user) req.user = user;
+  } catch {}
+  next();
+};

@@ -126,7 +126,7 @@ export const freeWeightProducts: Product[] = [
       es: "Pesa rusa ajustable versátil para entrenamientos progresivos."
     },
     price: 49.99,
-    image: "/images/products/free-weights/adjustable-kettlebell.webp",
+    image: "/images/products/free-weights/adjustable-kettlebell.png",
     stock: 9,
     brand: "FlexGear"
   }
