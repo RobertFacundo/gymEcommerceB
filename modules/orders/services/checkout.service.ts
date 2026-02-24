@@ -47,6 +47,9 @@ export const createCheckoutSession = async (params: CreateCheckoutSessionParams)
             product_data: {
                 name: item.name.en,
                 images: [item.image],
+                metadata: {
+                    productId: item.productId.toString(), // 🔑 Mongo ID
+                }
             },
             unit_amount: Math.round(item.price * 100 * (1 - discount)),
         },

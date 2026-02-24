@@ -50,7 +50,7 @@ export const stripeWebhookController = async (req: Request, res: Response) => {
                 console.log(sessionWithLineItems,'log del session')
 
                 const items = sessionWithLineItems.line_items?.data.map((i: any) => ({
-                    productId: i.price.product,
+                    productId: i.price.product_data.metadata.productId,
                     name: i.description,
                     price: i.amount_total / 100,
                     quantity: i.quantity,
