@@ -3,7 +3,9 @@ import path from 'path';
 import cors from 'cors';
 import authRoutes from './modules/auth/routes/auth.routes';
 import productsRoutes from './modules/products/routes/products.routes';
-import cartRoutes from './modules/cart/routes/cart.routes'
+import cartRoutes from './modules/cart/routes/cart.routes';
+import webhookRoutes from './modules/orders/routes/webhook.routes';
+import checkoutRoutes from './modules/orders/routes/checkout.routes'
 
 const app = express();
 
@@ -13,6 +15,12 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-guest-id'],
 }));
+app.use(
+  '/api/checkout/webhook',
+  express.raw({ type: 'application/json' }),
+  webhookRoutes
+);
+
 app.use(express.json());
 
 app.get('/health', (_, res) => {
@@ -22,6 +30,7 @@ app.get('/health', (_, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/checkout', checkoutRoutes);
 
 app.use(
   "/images",
