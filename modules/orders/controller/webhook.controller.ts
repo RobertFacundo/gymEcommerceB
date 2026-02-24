@@ -22,8 +22,21 @@ export const stripeWebhookController = async (req: Request, res: Response) => {
         const guestId = session.metadata.guestId;
 
         console.log(session, 'log del sessionwebhook controller')
+        const orConditions: any[] = [];
+
+        if (userId) orConditions.push({ userId });
+        if (guestId) orConditions.push({ guestId });
+
+        if (orConditions.length === 0) {
+            console.warn('Webhook without userId and guestId');
+            return res.json({ received: true });
+        }
+
         await CartModel.findOneAndUpdate(
-            { $or: [{ userId }, { guestId }], isActive: true },
+            {
+                $or: orConditions,
+                isActive: true,
+            },
             { isActive: false }
         );
 
