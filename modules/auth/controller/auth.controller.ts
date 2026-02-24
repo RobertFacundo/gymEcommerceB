@@ -8,7 +8,13 @@ interface AuthRequest extends Request {
 export const register = async (req: Request, res: Response) => {
     try {
         console.log('BODY:', req.body);
+
         const { name, email, password } = req.body;
+
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: 'Missing required fields' });
+        }
+
         const data = await authService.registerUser(name, email, password);
 
         res.status(201).json(data);

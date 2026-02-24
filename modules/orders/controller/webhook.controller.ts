@@ -21,7 +21,6 @@ export const stripeWebhookController = async (req: Request, res: Response) => {
         const userId = session.metadata.userId;
         const guestId = session.metadata.guestId;
 
-        console.log(session, 'log del sessionwebhook controller')
         const orConditions: any[] = [];
 
         if (userId) orConditions.push({ userId });
@@ -47,6 +46,8 @@ export const stripeWebhookController = async (req: Request, res: Response) => {
                     session.id,
                     { expand: ['line_items'] }
                 );
+
+                console.log(sessionWithLineItems,'log del session')
 
                 const items = sessionWithLineItems.line_items?.data.map((i: any) => ({
                     productId: i.price.product,
