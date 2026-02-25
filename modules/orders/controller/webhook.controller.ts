@@ -44,19 +44,25 @@ export const stripeWebhookController = async (req: Request, res: Response) => {
             if (user) {
                 const sessionWithLineItems = await stripe.checkout.sessions.retrieve(
                     session.id,
-                    { expand: ['line_items'] }
+                    { expand: ['line_items.data.price.product'] }
                 );
 
-                console.log(sessionWithLineItems,'log del session webhook controller!')
+                console.log(sessionWithLineItems, 'log del session webhook controller!')
 
-                const items = sessionWithLineItems.line_items?.data.map((i: any) => ({
-                    productId: i.price.metadata.productId,
-                    name: i.description,
-                    price: i.amount_total / 100,
-                    quantity: i.quantity,
-                })) || [];
+                const items = sessionWithLineItems.line_items?.data.map((i: any) => {
 
-                const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                    const product = i.price.product
+                    const productId = typeof product !== 'string' ? product.metadata.productId : null;
+
+                    return {
+                        productId: productId,
+                        name: i.description,
+                        price: i.amount_total / 100,
+                        quantity: i.quantity,
+                    }
+                }) || [];
+
+                const total = items.reduce((sum, item) => sum + item.price, 0);
 
                 user.shoppingHistory.push({
                     orderId: session.id,
