@@ -5,7 +5,7 @@ export const createMembershipController = async (req: Request, res: Response) =>
     try {
         console.log(req.body);
         const { userId, successUrl, cancelUrl, priceId } = req.body;
-        console.log({ userId, priceId, userEmail: user.email });
+        console.log({ userId, priceId});
         const session = await createMembershipSession({ userId, successUrl, cancelUrl, priceId });
         res.json(session);
     } catch (err: any) {
