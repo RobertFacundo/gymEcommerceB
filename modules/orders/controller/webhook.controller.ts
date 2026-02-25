@@ -18,6 +18,10 @@ export const stripeWebhookController = async (req: Request, res: Response) => {
 
     if (event.type === 'checkout.session.completed') {
         const session = event.data.object as any;
+
+        if (session.mode !== 'payment') {
+            return res.json({ received: true })
+        }
         const userId = session.metadata.userId;
         const guestId = session.metadata.guestId;
 
@@ -71,7 +75,7 @@ export const stripeWebhookController = async (req: Request, res: Response) => {
                     purchasedAt: new Date(),
                 });
 
-                console.log(JSON.stringify(user.shoppingHistory, null, 2),'log user final');
+                console.log(JSON.stringify(user.shoppingHistory, null, 2), 'log user final');
 
                 await user.save();
             }
