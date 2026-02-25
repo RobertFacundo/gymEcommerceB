@@ -5,7 +5,9 @@ import authRoutes from './modules/auth/routes/auth.routes';
 import productsRoutes from './modules/products/routes/products.routes';
 import cartRoutes from './modules/cart/routes/cart.routes';
 import webhookRoutes from './modules/orders/routes/webhook.routes';
-import checkoutRoutes from './modules/orders/routes/checkout.routes'
+import checkoutRoutes from './modules/orders/routes/checkout.routes';
+import membershipRoutes from './modules/membership/routes/membership.routes';
+import membershipWebhookRoutes from './modules/membership/routes/webhook.route'
 
 const app = express();
 
@@ -20,6 +22,11 @@ app.use(
   express.raw({ type: 'application/json' }),
   webhookRoutes
 );
+app.use(
+  '/api/membership/webhook',
+  express.raw({ type: 'application/json' }),
+  membershipWebhookRoutes
+);
 
 app.use(express.json());
 
@@ -31,6 +38,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/products', productsRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/checkout', checkoutRoutes);
+app.use('/api/membership', membershipRoutes);
 
 app.use(
   "/images",
