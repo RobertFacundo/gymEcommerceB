@@ -71,6 +71,8 @@ export const stripeWebhookController = async (req: Request, res: Response) => {
                     purchasedAt: new Date(),
                 });
 
+                console.log(user,'log del webhook user final')
+
                 await user.save();
             }
         }
