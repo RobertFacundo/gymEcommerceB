@@ -47,7 +47,7 @@ export const stripeWebhookController = async (req: Request, res: Response) => {
                     { expand: ['line_items'] }
                 );
 
-                console.log(sessionWithLineItems,'log del session')
+                console.log(sessionWithLineItems,'log del session webhook controller!')
 
                 const items = sessionWithLineItems.line_items?.data.map((i: any) => ({
                     productId: i.price.metadata.productId,

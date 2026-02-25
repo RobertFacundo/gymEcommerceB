@@ -56,6 +56,8 @@ export const createCheckoutSession = async (params: CreateCheckoutSessionParams)
         quantity: item.quantity,
     }));
 
+    console.log(line_items,'log del createchekoutsessionservice !!!!')
+
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items,
