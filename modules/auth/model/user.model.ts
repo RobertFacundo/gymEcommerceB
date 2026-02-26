@@ -1,9 +1,22 @@
 import { Schema, model, Types } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+const TranslatedTextSchema = new Schema(
+    {
+        en: { type: String, required: true },
+        es: { type: String, required: true }
+    },
+    { _id: false }
+);
+
+export interface ITranslatedText {
+    en: string;
+    es: string;
+}
+
 export interface IShoppingItem {
     productId: Types.ObjectId;
-    name: string;
+    name: ITranslatedText;
     price: number;
     quantity: number;
 }
@@ -23,7 +36,7 @@ const ShoppingItemSchema = new Schema<IShoppingItem>(
             required: true
         },
         name: {
-            type: String,
+            type: TranslatedTextSchema,
             required: true
         },
         price: {

@@ -49,6 +49,8 @@ export const createCheckoutSession = async (params: CreateCheckoutSessionParams)
                 images: [item.image],
                 metadata: {
                     productId: item.productId.toString(),
+                    name_es: item.name.es, // 👈 guardamos el nombre en español también
+                    name_en: item.name.en,
                 },
             },
             unit_amount: Math.round(item.price * 100 * (1 - discount)),

@@ -60,7 +60,10 @@ export const stripeWebhookController = async (req: Request, res: Response) => {
 
                     return {
                         productId: productId,
-                        name: i.description,
+                        name: {
+                            en: product.metadata.name_en,
+                            es: product.metadata.name_es
+                        },
                         price: i.amount_total / 100,
                         quantity: i.quantity,
                     }
