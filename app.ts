@@ -45,4 +45,8 @@ app.use(
   express.static(path.join(process.cwd(), "public/images"))
 );
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
+})
+
 export default app;
